@@ -1,3 +1,5 @@
+package string;
+
 public class Kmp {
     /*
     @func 构建前缀表
