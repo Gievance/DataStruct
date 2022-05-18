@@ -35,15 +35,51 @@ public class Kmp {
         }
         prefix[0]=-1;
     }
-
-    public static void main(String[] args) {
-        String pattern ="ABABCABAA";
-        int[] prefix = new int[9];
-        int n=9;
-        prefix_table(pattern.toCharArray(), prefix,n );
+    public static void kmp_search(char[] text,char[] pattern){
+        int n=text.length;//n =text的长度
+        int m=pattern.length;//m=pattern的长度
+        int i=0;//遍历text
+        int j=0;//遍历pattern
+        //构建前缀表
+        int [] prefix=new int[m];
+        prefix_table(pattern,prefix,m);
         move_table(prefix);
-        for(int i:prefix)
-            System.out.print(i+"、");
+
+        while(i<n){//遍历text
+            if(j==m-1&&text[i]==pattern[j])//当匹配到最后一个字符时
+            {
+                System.out.println("Found："+(i-j));
+                j=prefix[j];//继续向后匹配
+            }
+            if(text[i] == pattern[j])//对比相同
+            {
+                i++;
+                j++;
+            }else//对比不相同
+            {
+                j=prefix[j];
+                if(j==-1)//当没有前缀值时，只需右移
+                {
+                    i++;
+                    j++;
+                }
+            }
+        }
+    }
+    public static void main(String[] args) {
+        String text="ABABABCABAABABCABAA";
+        String pattern="ABABCABAA";
+        kmp_search(text.toCharArray(), pattern.toCharArray());
+
+
+
+//        String pattern ="ABABCABAA";
+//        int[] prefix = new int[9];
+//        int n=9;
+//        prefix_table(pattern.toCharArray(), prefix,n );
+//        move_table(prefix);
+//        for(int i:prefix)
+//            System.out.print(i+"、");
 
     }
 }
